@@ -33,7 +33,7 @@ namespace UnitTestImpromptuInterface
 
     public static class TimeIt
     {
-        public static Stopwatch Go(Action action, int interation = 1000000)
+        public static Stopwatch Go(Action action, int interation = 10000000)
         {
             var tStopwatch = new Stopwatch();
             tStopwatch.Start();
