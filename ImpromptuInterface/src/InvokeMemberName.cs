@@ -144,7 +144,7 @@ namespace ImpromptuInterface
         {
             unchecked
             {
-                return (GenericArgs != null ? GenericArgs.GetHashCode() * 397 : 0) ^ (Name.GetHashCode());
+                return (GenericArgs != null ? GenericArgs.Length.GetHashCode() * 397 : 0) ^ (Name.GetHashCode());
             }
         }
     }

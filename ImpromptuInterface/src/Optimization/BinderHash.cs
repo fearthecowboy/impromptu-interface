@@ -95,7 +95,6 @@ namespace ImpromptuInterface.Optimization
                 int result = (tArgNames == null ? 0 : tArgNames.Length * 397);
                 result = (result  ^ StaticContext.GetHashCode());
                 result = (result * 397) ^ DelegateType.GetHashCode();
-                result = (result * 397) ^ Context.GetHashCode();
                 result = (result * 397) ^ Name.GetHashCode();
                 return result;
             }
