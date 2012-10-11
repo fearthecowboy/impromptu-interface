@@ -337,12 +337,12 @@ namespace UnitTestImpromptuInterface
 
             var tStaticType = typeof(DateTime);
             var tTarget = tStaticType.WithStaticContext();
-            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeGet(tTarget, "Today"); }, 500000);
+            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeGet(tTarget, "Today"); }, (int)Math.Pow(10, 6));
             var tMethodInfo = typeof (DateTime).GetProperty("Today").GetGetMethod();
             var tWatch2 = TimeIt.Go(() =>
             {
                 var tOut = tMethodInfo.Invoke(tStaticType, new object[] { });
-            }, 500000);
+            },(int)Math.Pow(10, 6));
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Refelection: " + tWatch2.Elapsed);
@@ -361,13 +361,13 @@ namespace UnitTestImpromptuInterface
             var tWatch = TimeIt.Go(() =>
                                        {
                                            var tOut = tCachedInvoke.Invoke(tStaticType);
-                                       }, 500000);
+                                       }, (int)Math.Pow(10, 6));
             var tMethodInfo = typeof(DateTime).GetProperty("Today").GetGetMethod();
 
             var tWatch2 = TimeIt.Go(() =>
             {
                 var tOut = tMethodInfo.Invoke(tStaticType, new object[] { });
-            }, 500000);
+            }, (int)Math.Pow(10, 6));
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Refelection: " + tWatch2.Elapsed);
@@ -382,12 +382,12 @@ namespace UnitTestImpromptuInterface
             var tStaticType = typeof (DateTime);
             var tTarget = tStaticType.WithStaticContext();
             string tDate = "01/20/2009";
-            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeMember(tTarget, "Parse", tDate); }, 500000);
+            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeMember(tTarget, "Parse", tDate); }, (int)Math.Pow(10, 6));
             var tMethodInfo = typeof(DateTime).GetMethod("Parse",new[]{typeof(string)});
             var tWatch2 = TimeIt.Go(() =>
             {
                 var tOut = tMethodInfo.Invoke(tStaticType,new object[]{tDate});
-            }, 500000);
+            }, (int)Math.Pow(10, 6));
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Refelection: " + tWatch2.Elapsed);
@@ -405,12 +405,12 @@ namespace UnitTestImpromptuInterface
 
             var tCachedInvoke = new CacheableInvocation(InvocationKind.InvokeMember, "Parse", argCount: 1,
                                                         context: tContext);
-            var tWatch = TimeIt.Go(() => { var tOut = tCachedInvoke.Invoke(tStaticType, tDate); }, 500000);
+            var tWatch = TimeIt.Go(() => { var tOut = tCachedInvoke.Invoke(tStaticType, tDate); }, (int)Math.Pow(10, 6));
             var tMethodInfo = typeof(DateTime).GetMethod("Parse", new[] { typeof(string) });
             var tWatch2 = TimeIt.Go(() =>
             {
                 var tOut = tMethodInfo.Invoke(tStaticType, new object[] { tDate });
-            }, 500000);
+            }, (int)Math.Pow(10, 6));
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Refelection: " + tWatch2.Elapsed);
@@ -428,7 +428,7 @@ namespace UnitTestImpromptuInterface
             var tValue = new OverloadingMethPoco();
 
 
-            var tInteration = 1000000;
+            var tInteration = (int)Math.Pow(10, 7);
             var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeMember(tValue, "Func", null); }, tInteration);
             var tMethodInfo = tValue.GetType().GetMethod("Func", new Type[] { typeof(object)});
             var tWatch2 = TimeIt.Go(() =>
@@ -452,7 +452,7 @@ namespace UnitTestImpromptuInterface
             var tValue = new OverloadingMethPoco();
 
 
-            var tInteration = 1000000;
+            var tInteration = (int)Math.Pow(10, 7);
 
             var tCachedInvoke = new CacheableInvocation(InvocationKind.InvokeMember, "Func", argCount:1);
 
@@ -479,7 +479,7 @@ namespace UnitTestImpromptuInterface
             var tValue = new OverloadingMethPoco();
 
 
-            var tInteration = 500000;
+            var tInteration = (int)Math.Pow(10, 6);
             var tWatch = TimeIt.Go(() => { 
                 var tOut = Impromptu.InvokeMember(tValue, "Func", null); 
                 var tOut2 = Impromptu.InvokeMember(tValue, "Func", 2); }, tInteration);
@@ -504,7 +504,8 @@ namespace UnitTestImpromptuInterface
             var tValue = new OverloadingMethPoco();
 
             var tCachedInvoke = new CacheableInvocation(InvocationKind.InvokeMember, "Func", 1);
-            var tInteration = 500000;
+
+            var tInteration = (int)Math.Pow(10, 6);
             var tWatch = TimeIt.Go(() =>
             {
                 var tOut = tCachedInvoke.Invoke(tValue, null);
@@ -534,12 +535,13 @@ namespace UnitTestImpromptuInterface
 
 
 
-            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeMember(tValue, "IndexOf", "45", 0, 14, StringComparison.InvariantCulture); }, 500000);
+            var tInteration = (int)Math.Pow(10, 6);
+            var tWatch = TimeIt.Go(() => { var tOut = Impromptu.InvokeMember(tValue, "IndexOf", "45", 0, 14, StringComparison.InvariantCulture); }, tInteration);
             var tMethodInfo = tValue.GetType().GetMethod("IndexOf", new Type[] { typeof(string), typeof(int), typeof(int), typeof(StringComparison) });
             var tWatch2 = TimeIt.Go(() =>
                                         {
                                             var tOut = tMethodInfo.Invoke(tValue, new object[] { "45", 0, 14, StringComparison.InvariantCulture });
-                                        }, 500000);
+                                        }, tInteration);
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Reflection: " + tWatch2.Elapsed);
@@ -554,17 +556,17 @@ namespace UnitTestImpromptuInterface
 
             var tValue = "test 123 45 string";
 
-
+            var tInteration = (int)Math.Pow(10, 6);
             var tCachedInvoke = new CacheableInvocation(InvocationKind.InvokeMember, "IndexOf", 4);
             var tWatch = TimeIt.Go(() =>
                                        {
                                            var tOut = tCachedInvoke.Invoke(tValue,"45", 0, 14, StringComparison.InvariantCulture);
-                                       }, 500000);
+                                       }, tInteration);
             var tMethodInfo = tValue.GetType().GetMethod("IndexOf", new Type[] { typeof(string), typeof(int), typeof(int), typeof(StringComparison) });
             var tWatch2 = TimeIt.Go(() =>
             {
                 var tOut = tMethodInfo.Invoke(tValue, new object[] { "45", 0, 14, StringComparison.InvariantCulture });
-            }, 500000);
+            }, tInteration);
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Reflection: " + tWatch2.Elapsed);
@@ -580,11 +582,11 @@ namespace UnitTestImpromptuInterface
 
             var tValue = new Dictionary<object,object>();
 
+            var tInteration = (int)Math.Pow(10, 6);
 
-
-            var tWatch = TimeIt.Go(() => Impromptu.InvokeMemberAction(tValue, "Clear"), 500000);
+            var tWatch = TimeIt.Go(() => Impromptu.InvokeMemberAction(tValue, "Clear"), tInteration);
             var tMethodInfo = tValue.GetType().GetMethod("Clear", new Type[] { });
-            var tWatch2 = TimeIt.Go(() => tMethodInfo.Invoke(tValue, new object[] { }), 500000);
+            var tWatch2 = TimeIt.Go(() => tMethodInfo.Invoke(tValue, new object[] { }), tInteration);
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Reflection: " + tWatch2.Elapsed);
@@ -600,10 +602,11 @@ namespace UnitTestImpromptuInterface
             var tValue = new Dictionary<object, object>();
 
             var tCachedInvoke = new CacheableInvocation(InvocationKind.InvokeMemberAction, "Clear");
+            var tInteration = (int)Math.Pow(10, 6);
 
-            var tWatch = TimeIt.Go(() => tCachedInvoke.Invoke(tValue), (int)Math.Pow(10, 6));
+            var tWatch = TimeIt.Go(() => tCachedInvoke.Invoke(tValue), tInteration);
             var tMethodInfo = tValue.GetType().GetMethod("Clear", new Type[] { });
-            var tWatch2 = TimeIt.Go(() => tMethodInfo.Invoke(tValue, new object[] { }), (int)Math.Pow(10, 6));
+            var tWatch2 = TimeIt.Go(() => tMethodInfo.Invoke(tValue, new object[] { }), tInteration);
 
             TestContext.WriteLine("Impromptu: " + tWatch.Elapsed);
             TestContext.WriteLine("Reflection: " + tWatch2.Elapsed);
@@ -614,10 +617,11 @@ namespace UnitTestImpromptuInterface
         [Test]
         public void TestFastDynamicInvoke()
         {
+            var tInteration = (int)Math.Pow(10, 6);
             Func<int, bool> tFunc = it => it > 10;
-            var tStopWatch1 = TimeIt.Go(() => tFunc.FastDynamicInvoke(5), (int)Math.Pow(10, 6));
+            var tStopWatch1 = TimeIt.Go(() => tFunc.FastDynamicInvoke(5), tInteration);
 
-            var tStopWatch2 = TimeIt.Go(() => tFunc.DynamicInvoke(5), (int)Math.Pow(10, 6));
+            var tStopWatch2 = TimeIt.Go(() => tFunc.DynamicInvoke(5), tInteration);
 
             TestContext.WriteLine("Impromptu: " + tStopWatch1.Elapsed);
             TestContext.WriteLine("Reflection: " + tStopWatch2.Elapsed);
@@ -628,10 +632,11 @@ namespace UnitTestImpromptuInterface
         [Test]
         public void TestFastDynamicInvokeAction()
         {
+            var tInteration = (int)Math.Pow(10, 6);
             Action<int> tFunc = it => it.ToString();
-            var tStopWatch1 = TimeIt.Go(() => tFunc.FastDynamicInvoke(5), (int)Math.Pow(10, 6));
+            var tStopWatch1 = TimeIt.Go(() => tFunc.FastDynamicInvoke(5), tInteration);
 
-            var tStopWatch2 = TimeIt.Go(() => tFunc.DynamicInvoke(5), (int)Math.Pow(10, 6));
+            var tStopWatch2 = TimeIt.Go(() => tFunc.DynamicInvoke(5), tInteration);
 
             TestContext.WriteLine("Impromptu: " + tStopWatch1.Elapsed);
             TestContext.WriteLine("Reflection: " + tStopWatch2.Elapsed);
